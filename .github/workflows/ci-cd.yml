@@ -7,7 +7,7 @@ on:
     branches: ["main"]
 
 env:
-  DOCKER_HUB_REPOSITORY: ${{ secrets.DOCKER_HUB_REPOSITORY }}
+  DOCKER_HUB_REPOSITORY: wishing9696
   VERSION: ${{ github.sha }}
 
 jobs:
