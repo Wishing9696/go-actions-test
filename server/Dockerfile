@@ -3,7 +3,7 @@ FROM golang:1.24-alpine AS builder
 WORKDIR /app
 COPY . .
 # RUN go mod init && go mod tidy
-RUN go mod download 
+RUN go mod init ./server && go mod tidy
 
 # Build the Go app
 # Use CGO_ENABLED=0 to build a statically linked binary
