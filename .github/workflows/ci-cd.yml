@@ -51,44 +51,44 @@ jobs:
           name: go-bin
           path: bin/main
     
-    docker:
-      name: Build and Push Docker Image
-      needs: build
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v3
+  docker:
+    name: Build and Push Docker Image
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-        - name: Login to Docker Hub
-          uses: docker/login-action@v2
-          with:
-            username: ${{ secrets.DOCKER_HUB_USERNAME }}
-            password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-        - name: Set up Docker Buildx
-          uses: docker/setup-buildx-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-        - name: Build and push
-          uses: docker/build-push-action@v4
-          with:
-            context: .
-            push: true
-            tags: |
-              ${{ env.DOCKER_HUB_REPOSITORY }}:latest
-              ${{ env.DOCKER_HUB_REPOSITORY }}:${{ env.VERSION }}
-            build-args: |
-              VERSION=${{ env.VERSION }}
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.DOCKER_HUB_REPOSITORY }}:latest
+            ${{ env.DOCKER_HUB_REPOSITORY }}:${{ env.VERSION }}
+          build-args: |
+            VERSION=${{ env.VERSION }}
 
-    execute:
-      name: Execute
-      needs: docker
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v3
+  execute:
+    name: Execute
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-        - name: Pull Docker image
-          run: docker pull ${{ env.DOCKER_HUB_REPOSITORY }}:${{ env.VERSION }}
+      - name: Pull Docker image
+        run: docker pull ${{ env.DOCKER_HUB_REPOSITORY }}:${{ env.VERSION }}
 
-        - name: Run Docker container
-          run: docker run --rm ${{ env.DOCKER_HUB_REPOSITORY }}:${{ env.VERSION }}
+      - name: Run Docker container
+        run: docker run --rm ${{ env.DOCKER_HUB_REPOSITORY }}:${{ env.VERSION }}
