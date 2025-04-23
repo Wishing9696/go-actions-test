@@ -43,7 +43,7 @@ jobs:
           go-version: 1.24
 
       - name: Build
-        run: CGO_ENABLED=0 GOOS=linux go build -o bin/main .
+        run: CGO_ENABLED=0 GOOS=linux go build -o bin/main ./server
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -71,7 +71,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./server
           push: true
           tags: |
             ${{ env.DOCKER_HUB_REPOSITORY }}:latest
