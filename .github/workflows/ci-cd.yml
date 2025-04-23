@@ -7,7 +7,9 @@ on:
     branches: ["main"]
 
 env:
-  DOCKER_HUB_REPOSITORY: wishing9696
+  DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+  DOCKER_HUB_REPOSITORY: go-actions-test
+
   VERSION: ${{ github.sha }}
 
 jobs:
@@ -74,8 +76,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ env.DOCKER_HUB_REPOSITORY }}:latest
-            ${{ env.DOCKER_HUB_REPOSITORY }}:${{ env.VERSION }}
+            ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:latest
+            ${{ env.DOCKER_HUB_USERNAME }}/${{ env.DOCKER_HUB_REPOSITORY }}:${{ env.VERSION }}
           build-args: |
             VERSION=${{ env.VERSION }}
 
