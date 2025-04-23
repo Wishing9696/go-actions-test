@@ -46,7 +46,7 @@ jobs:
         run: CGO_ENABLED=0 GOOS=linux go build -o bin/main .
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: go-bin
           path: bin/main
